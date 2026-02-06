@@ -35,7 +35,7 @@
             this.txt2 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.btn1 = new System.Windows.Forms.Button();
+            this.loginbtn = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -111,17 +111,18 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "Password";
             // 
-            // btn1
+            // loginbtn
             // 
-            this.btn1.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.btn1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.ForeColor = System.Drawing.Color.Tomato;
-            this.btn1.Location = new System.Drawing.Point(335, 367);
-            this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(140, 56);
-            this.btn1.TabIndex = 7;
-            this.btn1.Text = "Login";
-            this.btn1.UseVisualStyleBackColor = false;
+            this.loginbtn.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.loginbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loginbtn.ForeColor = System.Drawing.Color.Tomato;
+            this.loginbtn.Location = new System.Drawing.Point(335, 367);
+            this.loginbtn.Name = "loginbtn";
+            this.loginbtn.Size = new System.Drawing.Size(140, 56);
+            this.loginbtn.TabIndex = 7;
+            this.loginbtn.Text = "Login";
+            this.loginbtn.UseVisualStyleBackColor = false;
+            this.loginbtn.Click += new System.EventHandler(this.loginbtn_Click);
             // 
             // pictureBox1
             // 
@@ -140,7 +141,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.btn1);
+            this.Controls.Add(this.loginbtn);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txt2);
@@ -165,7 +166,7 @@
         private System.Windows.Forms.TextBox txt2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btn1;
+        private System.Windows.Forms.Button loginbtn;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

@@ -172,7 +172,7 @@
             this.label1.ForeColor = System.Drawing.Color.Red;
             this.label1.Location = new System.Drawing.Point(437, 36);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(282, 39);
+            this.label1.Size = new System.Drawing.Size(271, 38);
             this.label1.TabIndex = 0;
             this.label1.Text = "Staff Information";
             // 
@@ -192,9 +192,9 @@
             this.button5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.button5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button5.ForeColor = System.Drawing.Color.White;
-            this.button5.Location = new System.Drawing.Point(1043, 130);
+            this.button5.Location = new System.Drawing.Point(1046, 139);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(67, 61);
+            this.button5.Size = new System.Drawing.Size(64, 52);
             this.button5.TabIndex = 25;
             this.button5.UseVisualStyleBackColor = true;
             // 
