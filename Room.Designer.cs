@@ -30,7 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.phonenumbertxt = new System.Windows.Forms.TextBox();
+            this.floornumbertxt = new System.Windows.Forms.TextBox();
             this.roomnumbertxt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -39,12 +39,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.deletebtn = new System.Windows.Forms.Button();
             this.editbtn = new System.Windows.Forms.Button();
-            this.addbtn = new System.Windows.Forms.Button();
             this.searchbtn = new System.Windows.Forms.Button();
             this.searchtxt = new System.Windows.Forms.TextBox();
             this.roomdatagridview = new System.Windows.Forms.DataGridView();
             this.refreshbtn = new System.Windows.Forms.Button();
+            this.btnadd = new System.Windows.Forms.Button();
+            this.backbtn = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.pricetxt = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.bedtypecombobox = new System.Windows.Forms.ComboBox();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
@@ -71,15 +78,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Room Information";
             // 
-            // phonenumbertxt
+            // floornumbertxt
             // 
-            this.phonenumbertxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.phonenumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.phonenumbertxt.ForeColor = System.Drawing.Color.Black;
-            this.phonenumbertxt.Location = new System.Drawing.Point(227, 256);
-            this.phonenumbertxt.Name = "phonenumbertxt";
-            this.phonenumbertxt.Size = new System.Drawing.Size(243, 34);
-            this.phonenumbertxt.TabIndex = 26;
+            this.floornumbertxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.floornumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.floornumbertxt.ForeColor = System.Drawing.Color.Black;
+            this.floornumbertxt.Location = new System.Drawing.Point(227, 230);
+            this.floornumbertxt.Name = "floornumbertxt";
+            this.floornumbertxt.Size = new System.Drawing.Size(243, 34);
+            this.floornumbertxt.TabIndex = 26;
             // 
             // roomnumbertxt
             // 
@@ -96,11 +103,11 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(32, 262);
+            this.label4.Location = new System.Drawing.Point(32, 236);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(176, 29);
+            this.label4.Size = new System.Drawing.Size(163, 29);
             this.label4.TabIndex = 24;
-            this.label4.Text = "Phone Number";
+            this.label4.Text = "Floor Number";
             // 
             // label2
             // 
@@ -117,7 +124,7 @@
             // 
             this.rdyes.AutoSize = true;
             this.rdyes.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdyes.Location = new System.Drawing.Point(246, 363);
+            this.rdyes.Location = new System.Drawing.Point(243, 396);
             this.rdyes.Name = "rdyes";
             this.rdyes.Size = new System.Drawing.Size(67, 29);
             this.rdyes.TabIndex = 27;
@@ -129,7 +136,7 @@
             // 
             this.rdno.AutoSize = true;
             this.rdno.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdno.Location = new System.Drawing.Point(373, 363);
+            this.rdno.Location = new System.Drawing.Point(373, 396);
             this.rdno.Name = "rdno";
             this.rdno.Size = new System.Drawing.Size(58, 29);
             this.rdno.TabIndex = 28;
@@ -142,7 +149,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(46, 363);
+            this.label3.Location = new System.Drawing.Point(32, 396);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(135, 29);
             this.label3.TabIndex = 29;
@@ -158,6 +165,7 @@
             this.deletebtn.TabIndex = 32;
             this.deletebtn.Text = "DELETE";
             this.deletebtn.UseVisualStyleBackColor = true;
+            this.deletebtn.Click += new System.EventHandler(this.deletebtn_Click);
             // 
             // editbtn
             // 
@@ -169,47 +177,39 @@
             this.editbtn.TabIndex = 31;
             this.editbtn.Text = "EDIT";
             this.editbtn.UseVisualStyleBackColor = true;
-            // 
-            // addbtn
-            // 
-            this.addbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addbtn.ForeColor = System.Drawing.Color.Thistle;
-            this.addbtn.Location = new System.Drawing.Point(51, 446);
-            this.addbtn.Name = "addbtn";
-            this.addbtn.Size = new System.Drawing.Size(122, 52);
-            this.addbtn.TabIndex = 30;
-            this.addbtn.Text = "ADD";
-            this.addbtn.UseVisualStyleBackColor = true;
-            this.addbtn.Click += new System.EventHandler(this.addbtn_Click);
+            this.editbtn.Click += new System.EventHandler(this.editbtn_Click);
             // 
             // searchbtn
             // 
             this.searchbtn.BackColor = System.Drawing.Color.Gray;
             this.searchbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchbtn.ForeColor = System.Drawing.Color.White;
-            this.searchbtn.Location = new System.Drawing.Point(904, 105);
+            this.searchbtn.Location = new System.Drawing.Point(915, 101);
             this.searchbtn.Name = "searchbtn";
             this.searchbtn.Size = new System.Drawing.Size(109, 41);
             this.searchbtn.TabIndex = 35;
             this.searchbtn.Text = "Search";
             this.searchbtn.UseVisualStyleBackColor = false;
+            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
             // 
             // searchtxt
             // 
             this.searchtxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.searchtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchtxt.ForeColor = System.Drawing.Color.Black;
-            this.searchtxt.Location = new System.Drawing.Point(644, 105);
+            this.searchtxt.Location = new System.Drawing.Point(646, 105);
             this.searchtxt.Name = "searchtxt";
             this.searchtxt.Size = new System.Drawing.Size(243, 34);
             this.searchtxt.TabIndex = 34;
             // 
             // roomdatagridview
             // 
-            this.roomdatagridview.BackgroundColor = System.Drawing.SystemColors.HighlightText;
+            this.roomdatagridview.BackgroundColor = System.Drawing.Color.White;
             this.roomdatagridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.roomdatagridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
+            this.Column4,
+            this.Column5,
             this.Column2,
             this.Column3});
             this.roomdatagridview.Location = new System.Drawing.Point(528, 172);
@@ -233,6 +233,72 @@
             this.refreshbtn.Size = new System.Drawing.Size(54, 48);
             this.refreshbtn.TabIndex = 36;
             this.refreshbtn.UseVisualStyleBackColor = false;
+            this.refreshbtn.Click += new System.EventHandler(this.refreshbtn_Click);
+            // 
+            // btnadd
+            // 
+            this.btnadd.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnadd.ForeColor = System.Drawing.Color.Thistle;
+            this.btnadd.Location = new System.Drawing.Point(51, 446);
+            this.btnadd.Name = "btnadd";
+            this.btnadd.Size = new System.Drawing.Size(122, 52);
+            this.btnadd.TabIndex = 38;
+            this.btnadd.Text = "ADD";
+            this.btnadd.UseVisualStyleBackColor = true;
+            this.btnadd.Click += new System.EventHandler(this.btnadd_Click);
+            // 
+            // backbtn
+            // 
+            this.backbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.backbtn.ForeColor = System.Drawing.Color.Thistle;
+            this.backbtn.Location = new System.Drawing.Point(212, 530);
+            this.backbtn.Name = "backbtn";
+            this.backbtn.Size = new System.Drawing.Size(122, 52);
+            this.backbtn.TabIndex = 39;
+            this.backbtn.Text = "BACK";
+            this.backbtn.UseVisualStyleBackColor = true;
+            this.backbtn.Click += new System.EventHandler(this.backbtn_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(32, 353);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(69, 29);
+            this.label5.TabIndex = 40;
+            this.label5.Text = "Price";
+            // 
+            // pricetxt
+            // 
+            this.pricetxt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.pricetxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pricetxt.ForeColor = System.Drawing.Color.Black;
+            this.pricetxt.Location = new System.Drawing.Point(227, 347);
+            this.pricetxt.Name = "pricetxt";
+            this.pricetxt.Size = new System.Drawing.Size(243, 34);
+            this.pricetxt.TabIndex = 41;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Location = new System.Drawing.Point(32, 295);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(118, 29);
+            this.label6.TabIndex = 42;
+            this.label6.Text = "Bed Type";
+            // 
+            // bedtypecombobox
+            // 
+            this.bedtypecombobox.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bedtypecombobox.FormattingEnabled = true;
+            this.bedtypecombobox.Location = new System.Drawing.Point(227, 287);
+            this.bedtypecombobox.Name = "bedtypecombobox";
+            this.bedtypecombobox.Size = new System.Drawing.Size(243, 37);
+            this.bedtypecombobox.TabIndex = 43;
             // 
             // Column1
             // 
@@ -241,9 +307,23 @@
             this.Column1.Name = "Column1";
             this.Column1.Width = 150;
             // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Bed Type";
+            this.Column4.MinimumWidth = 6;
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 125;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Price";
+            this.Column5.MinimumWidth = 6;
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 125;
+            // 
             // Column2
             // 
-            this.Column2.HeaderText = "Room Phone";
+            this.Column2.HeaderText = "Floor Number";
             this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
             this.Column2.Width = 150;
@@ -260,17 +340,22 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1198, 650);
+            this.Controls.Add(this.bedtypecombobox);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.pricetxt);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.backbtn);
+            this.Controls.Add(this.btnadd);
             this.Controls.Add(this.refreshbtn);
             this.Controls.Add(this.searchbtn);
             this.Controls.Add(this.searchtxt);
             this.Controls.Add(this.roomdatagridview);
             this.Controls.Add(this.deletebtn);
             this.Controls.Add(this.editbtn);
-            this.Controls.Add(this.addbtn);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.rdno);
             this.Controls.Add(this.rdyes);
-            this.Controls.Add(this.phonenumbertxt);
+            this.Controls.Add(this.floornumbertxt);
             this.Controls.Add(this.roomnumbertxt);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
@@ -291,7 +376,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox phonenumbertxt;
+        private System.Windows.Forms.TextBox floornumbertxt;
         private System.Windows.Forms.TextBox roomnumbertxt;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
@@ -300,12 +385,19 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button deletebtn;
         private System.Windows.Forms.Button editbtn;
-        private System.Windows.Forms.Button addbtn;
         private System.Windows.Forms.Button refreshbtn;
         private System.Windows.Forms.Button searchbtn;
         private System.Windows.Forms.TextBox searchtxt;
         private System.Windows.Forms.DataGridView roomdatagridview;
+        private System.Windows.Forms.Button btnadd;
+        private System.Windows.Forms.Button backbtn;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox pricetxt;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox bedtypecombobox;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }

@@ -80,6 +80,7 @@
     <Compile Include="Room.Designer.cs">
       <DependentUpon>Room.cs</DependentUpon>
     </Compile>
+    <Compile Include="staff.cs" />
     <Compile Include="Staffinfo.cs">
       <SubType>Form</SubType>
     </Compile>

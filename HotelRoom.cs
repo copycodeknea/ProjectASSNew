@@ -1,29 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ProjectASS
 {
-    public class HotelRoom
+    // Abstract base class (Abstraction + Inheritance)
+    public abstract class RoomBase
     {
-        public double RoomNumber { get; set; }
-        public string PhoneNumber { get; set; }
+        public int RoomId { get; set; }
+        public int RoomNumber { get; set; }
+        public int FloorNumber { get; set; }
         public bool RoomAvailability { get; set; }
 
-        public void Number()
+        // Polymorphism
+        public abstract string GetAvailabilityStatus();
+    }
+
+    public class HotelRoom : RoomBase
+    {
+        public override string GetAvailabilityStatus()
         {
-            MessageBox.Show("Room Number: " + RoomNumber);
-        }
-        public void Phone()
-        {
-            MessageBox.Show("Phone Number: " + PhoneNumber);
-        }
-        public void Availability()
-        {
-            MessageBox.Show("Room Availability: " + (RoomAvailability ? "Available" : "Not Available"));
+            return RoomAvailability ? "Available" : "Occupied";
         }
     }
 }
