@@ -27,7 +27,46 @@ namespace ProjectASS
             gendercombobox.Items.AddRange(new string[] { "Male", "Female", "Other" });
             gendercombobox.SelectedIndex = 0;
 
+            ConfigureDataGridView();
             LoadStaff();
+        }
+
+        private void ConfigureDataGridView()
+        {
+            staffdatagridview.Columns.Clear();
+            staffdatagridview.AutoGenerateColumns = false;
+
+            staffdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Staff_ID",
+                HeaderText = "ID",
+                DataPropertyName = "Staff_ID",
+                Visible = false
+            });
+            staffdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Staff_Name",
+                HeaderText = "Name",
+                DataPropertyName = "Staff_Name"
+            });
+            staffdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Position",
+                HeaderText = "Position",
+                DataPropertyName = "Position"
+            });
+            staffdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Gender",
+                HeaderText = "Gender",
+                DataPropertyName = "Gender"
+            });
+            staffdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "Phone_Number",
+                HeaderText = "Phone",
+                DataPropertyName = "Phone_Number"
+            });
         }
 
         private void LoadStaff(string searchQuery = "")
@@ -62,32 +101,7 @@ namespace ProjectASS
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Add StaffType column via polymorphism
-                            if (!dt.Columns.Contains("StaffType"))
-                                dt.Columns.Add("StaffType", typeof(string));
-
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                HotelStaff staff = new HotelStaff
-                                {
-                                    StaffName = row["Staff_Name"].ToString(),
-                                    PhoneNumber = row["Phone_Number"].ToString(),
-                                    Position = row["Position"].ToString(),
-                                    Gender = row["Gender"].ToString()
-                                };
-                                row["StaffType"] = staff.GetStaffType();
-                            }
-
                             staffdatagridview.DataSource = dt;
-                            staffdatagridview.AutoGenerateColumns = false;
-
-                            // Configure columns
-                            ConfigureColumn("Staff_ID", "ID", false, false);
-                            ConfigureColumn("Staff_Name", "Name");
-                            ConfigureColumn("Position", "Position");
-                            ConfigureColumn("Gender", "Gender");
-                            ConfigureColumn("Phone_Number", "Phone");
-                            ConfigureColumn("StaffType", "Staff Type", true);
                         }
                     }
                 }
@@ -95,22 +109,7 @@ namespace ProjectASS
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading staff: " + ex.Message);
-            }
-        }
-
-        private void ConfigureColumn(string name, string header, bool readOnly = false, bool visible = true)
-        {
-            if (!staffdatagridview.Columns.Contains(name))
-            {
-                DataGridViewTextBoxColumn col = new DataGridViewTextBoxColumn
-                {
-                    Name = name,
-                    HeaderText = header,
-                    DataPropertyName = name,
-                    ReadOnly = readOnly,
-                    Visible = visible
-                };
-                staffdatagridview.Columns.Add(col);
+                staffdatagridview.DataSource = null;
             }
         }
 
@@ -118,38 +117,34 @@ namespace ProjectASS
         {
             try
             {
-                HotelStaff staff = new HotelStaff
-                {
-                    StaffID = selectedStaffID,
-                    StaffName = staffnametxt.Text.Trim(),
-                    PhoneNumber = phonenumbertxt.Text.Trim(),
-                    Position = positiontxt.Text.Trim(),
-                    Gender = gendercombobox.Text
-                };
+                string name = staffnametxt.Text.Trim();
+                string phone = phonenumbertxt.Text.Trim();
+                string position = positiontxt.Text.Trim();
+                string gender = gendercombobox.Text;
 
-                // Validation
-                staff.Validate();
+                if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(phone) || string.IsNullOrWhiteSpace(position))
+                {
+                    MessageBox.Show("Please fill all fields.");
+                    return;
+                }
 
                 using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
 
                     string query = isNew
-                        ? @"INSERT INTO Staff (Staff_Name, Phone_Number, Position, Gender)
-                            VALUES (@StaffName, @PhoneNumber, @Position, @Gender)"
-                        : @"UPDATE Staff 
-                            SET Staff_Name=@StaffName, Phone_Number=@PhoneNumber, Position=@Position, Gender=@Gender 
-                            WHERE Staff_ID=@StaffID";
+                        ? "INSERT INTO Staff (Staff_Name, Phone_Number, Position, Gender) VALUES (@Name, @Phone, @Position, @Gender)"
+                        : "UPDATE Staff SET Staff_Name=@Name, Phone_Number=@Phone, Position=@Position, Gender=@Gender WHERE Staff_ID=@ID";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@StaffName", staff.StaffName);
-                        cmd.Parameters.AddWithValue("@PhoneNumber", staff.PhoneNumber);
-                        cmd.Parameters.AddWithValue("@Position", staff.Position);
-                        cmd.Parameters.AddWithValue("@Gender", staff.Gender);
+                        cmd.Parameters.AddWithValue("@Name", name);
+                        cmd.Parameters.AddWithValue("@Phone", phone);
+                        cmd.Parameters.AddWithValue("@Position", position);
+                        cmd.Parameters.AddWithValue("@Gender", gender);
 
                         if (!isNew)
-                            cmd.Parameters.AddWithValue("@StaffID", staff.StaffID);
+                            cmd.Parameters.AddWithValue("@ID", selectedStaffID);
 
                         cmd.ExecuteNonQuery();
                     }
@@ -193,9 +188,9 @@ namespace ProjectASS
                 using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Staff WHERE Staff_ID=@StaffID", conn))
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Staff WHERE Staff_ID=@ID", conn))
                     {
-                        cmd.Parameters.AddWithValue("@StaffID", selectedStaffID);
+                        cmd.Parameters.AddWithValue("@ID", selectedStaffID);
                         cmd.ExecuteNonQuery();
                     }
                 }
@@ -215,7 +210,7 @@ namespace ProjectASS
             string searchText = searchtxt.Text.Trim();
             if (string.IsNullOrWhiteSpace(searchText))
             {
-                MessageBox.Show("Please enter a StaffID or Name to search.");
+                LoadStaff();
                 return;
             }
             LoadStaff(searchText);
