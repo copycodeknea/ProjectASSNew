@@ -46,12 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="client.cs" />
     <Compile Include="Clientinfo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Clientinfo.Designer.cs">
       <DependentUpon>Clientinfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataBase.cs" />
     <Compile Include="DatabaseConfig.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -59,6 +61,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HoltelReservation.cs" />
     <Compile Include="HotelRoom.cs" />
     <Compile Include="Mainpagecs.cs">
       <SubType>Form</SubType>
