@@ -11,7 +11,7 @@ namespace ProjectASS
     public static class DatabaseConfig
     {
         public static string ConnectionString =
+
             "Data Source=localhost;Initial Catalog=HotelDB;Integrated Security=True;";
-        
     }
 }

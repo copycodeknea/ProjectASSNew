@@ -16,7 +16,11 @@ namespace ProjectASS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+<<<<<<< HEAD
             Application.Run(new Reservation());
+=======
+            Application.Run(new Staffinfo());
+>>>>>>> 1ab72dfe680d57619adf7af569bc658d592dfe38
         }
     }
 }

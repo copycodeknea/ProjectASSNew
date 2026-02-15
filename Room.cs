@@ -14,10 +14,8 @@ namespace ProjectASS
             InitializeComponent();
             roomdatagridview.CellClick += roomdatagridview_CellClick;
 
-            // Disable Edit/Delete buttons initially
             editbtn.Enabled = false;
             deletebtn.Enabled = false;
-
             this.Load += Room_Load;
         }
 
@@ -25,19 +23,11 @@ namespace ProjectASS
         {
             rdyes.Checked = true;
 
-            // Initialize Bed Type combobox
             bedtypecombobox.Items.Clear();
             bedtypecombobox.Items.AddRange(new string[] { "Single", "Double", "Queen", "King" });
             bedtypecombobox.SelectedIndex = 0;
 
-            try
-            {
-                LoadRooms();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading rooms: " + ex.Message);
-            }
+            LoadRooms();
         }
 
         private void LoadRooms(string searchQuery = "")
@@ -48,19 +38,16 @@ namespace ProjectASS
                 {
                     conn.Open();
 
-                    string query = "SELECT room_id, room_number, price_per_night, floor_number, bed_type, roomavailability FROM Room";
+                    string query = "SELECT RoomId, Room_Number, Price_per_Night, floor, Bed_type, Room_Availability FROM Room";
 
                     if (!string.IsNullOrWhiteSpace(searchQuery))
                     {
-                        if (int.TryParse(searchQuery, out int roomNum))
-                        {
-                            query += " WHERE room_number = @SearchRoom";
-                        }
-                        else
+                        if (!int.TryParse(searchQuery, out _))
                         {
                             MessageBox.Show("Room number must be numeric.");
                             return;
                         }
+                        query += " WHERE Room_Number = @SearchRoom";
                     }
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -73,49 +60,44 @@ namespace ProjectASS
                             DataTable dt = new DataTable();
                             adapter.Fill(dt);
 
-                            // Prepare display table
                             DataTable displayTable = new DataTable();
-                            displayTable.Columns.Add("room_id", typeof(int));
+                            displayTable.Columns.Add("RoomId", typeof(int));
                             displayTable.Columns.Add("Room Number", typeof(int));
                             displayTable.Columns.Add("Price per Night", typeof(decimal));
-                            displayTable.Columns.Add("Floor Number", typeof(int));
+                            displayTable.Columns.Add("Floor", typeof(int));
                             displayTable.Columns.Add("Bed Type", typeof(string));
                             displayTable.Columns.Add("Availability", typeof(string));
 
                             foreach (DataRow row in dt.Rows)
                             {
-                                // Create HotelRoom object for polymorphism
                                 HotelRoom room = new HotelRoom
                                 {
-                                    RoomId = Convert.ToInt32(row["room_id"]),
-                                    RoomNumber = Convert.ToInt32(row["room_number"]),
-                                    FloorNumber = Convert.ToInt32(row["floor_number"]),
-                                    RoomAvailability = Convert.ToBoolean(row["roomavailability"])
+                                    RoomId = Convert.ToInt32(row["RoomId"]),
+                                    RoomNumber = Convert.ToInt32(row["Room_Number"]),
+                                    FloorNumber = Convert.ToInt32(row["floor"]),
+                                    RoomAvailability = Convert.ToBoolean(row["Room_Availability"])
                                 };
-
-                                string bedType = row["bed_type"].ToString();
-                                // Fallback if bed type is invalid
-                                if (!bedtypecombobox.Items.Contains(bedType))
-                                    bedType = "Single";
 
                                 displayTable.Rows.Add(
                                     room.RoomId,
                                     room.RoomNumber,
-                                    Convert.ToDecimal(row["price_per_night"]),
+                                    Convert.ToDecimal(row["Price_per_Night"]),
                                     room.FloorNumber,
-                                    bedType,
-                                    room.GetAvailabilityStatus()  // Polymorphism used
+                                    row["Bed_type"].ToString(),
+                                    room.GetAvailabilityStatus()
                                 );
                             }
+
+                            // ❗ CLEAR OLD GRID STATE BEFORE BINDING
+                            roomdatagridview.DataSource = null;
+                            roomdatagridview.Columns.Clear();
 
                             roomdatagridview.DataSource = displayTable;
                             roomdatagridview.AutoGenerateColumns = true;
 
-                            // Hide internal ID column
-                            if (roomdatagridview.Columns["room_id"] != null)
-                                roomdatagridview.Columns["room_id"].Visible = false;
+                            if (roomdatagridview.Columns["RoomId"] != null)
+                                roomdatagridview.Columns["RoomId"].Visible = false;
 
-                            // Format Price as currency
                             if (roomdatagridview.Columns["Price per Night"] != null)
                                 roomdatagridview.Columns["Price per Night"].DefaultCellStyle.Format = "C2";
                         }
@@ -131,7 +113,6 @@ namespace ProjectASS
 
         private void SaveRoom(bool isNew)
         {
-            // Validate numeric inputs
             if (!int.TryParse(roomnumbertxt.Text, out int roomNumber) || roomNumber <= 0 ||
                 !int.TryParse(floornumbertxt.Text, out int floorNumber) || floorNumber <= 0 ||
                 !decimal.TryParse(pricetxt.Text, out decimal price) || price <= 0)
@@ -153,10 +134,10 @@ namespace ProjectASS
                     conn.Open();
 
                     string query = isNew
-                        ? "INSERT INTO Room (room_number, price_per_night, floor_number, bed_type, roomavailability) " +
+                        ? "INSERT INTO Room (Room_Number, Price_per_Night, floor, Bed_type, Room_Availability) " +
                           "VALUES (@room_number, @price, @floor_number, @bed_type, @roomavailability)"
-                        : "UPDATE Room SET room_number=@room_number, price_per_night=@price, floor_number=@floor_number, " +
-                          "bed_type=@bed_type, roomavailability=@roomavailability WHERE room_id=@room_id";
+                        : "UPDATE Room SET Room_Number=@room_number, Price_per_Night=@price, floor=@floor_number, " +
+                          "Bed_type=@bed_type, Room_Availability=@roomavailability WHERE RoomId=@room_id";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -174,7 +155,12 @@ namespace ProjectASS
                 }
 
                 MessageBox.Show(isNew ? "Room added successfully!" : "Room updated successfully!");
+
                 ClearFields();
+
+                // ❗ force reload with correct binding
+                roomdatagridview.DataSource = null;
+                roomdatagridview.Columns.Clear();
                 LoadRooms();
             }
             catch (Exception ex)
@@ -190,11 +176,10 @@ namespace ProjectASS
                 using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Room WHERE room_number = @room_number", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM Room WHERE Room_Number = @room_number", conn))
                     {
                         cmd.Parameters.AddWithValue("@room_number", roomNumber);
-                        int count = (int)cmd.ExecuteScalar();
-                        return count > 0;
+                        return (int)cmd.ExecuteScalar() > 0;
                     }
                 }
             }
@@ -221,16 +206,13 @@ namespace ProjectASS
             if (e.RowIndex < 0) return;
 
             DataGridViewRow row = roomdatagridview.Rows[e.RowIndex];
-            selectedRoomId = Convert.ToInt32(row.Cells["room_id"].Value);
+            selectedRoomId = Convert.ToInt32(row.Cells["RoomId"].Value);
             roomnumbertxt.Text = row.Cells["Room Number"].Value.ToString();
             pricetxt.Text = row.Cells["Price per Night"].Value.ToString();
-            floornumbertxt.Text = row.Cells["Floor Number"].Value.ToString();
+            floornumbertxt.Text = row.Cells["Floor"].Value.ToString();
 
             string bedType = row.Cells["Bed Type"].Value.ToString();
-            if (bedtypecombobox.Items.Contains(bedType))
-                bedtypecombobox.Text = bedType;
-            else
-                bedtypecombobox.SelectedIndex = 0;
+            bedtypecombobox.Text = bedType;
 
             rdyes.Checked = row.Cells["Availability"].Value.ToString() == "Available";
             rdno.Checked = !rdyes.Checked;
@@ -255,7 +237,7 @@ namespace ProjectASS
                 using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Room WHERE room_id = @room_id", conn))
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Room WHERE RoomId = @room_id", conn))
                     {
                         cmd.Parameters.AddWithValue("@room_id", selectedRoomId);
                         cmd.ExecuteNonQuery();
@@ -264,6 +246,9 @@ namespace ProjectASS
 
                 MessageBox.Show("Room deleted successfully!");
                 ClearFields();
+
+                roomdatagridview.DataSource = null;
+                roomdatagridview.Columns.Clear();
                 LoadRooms();
             }
             catch (Exception ex)
@@ -272,15 +257,14 @@ namespace ProjectASS
             }
         }
 
-        private void searchbtn_Click(object sender, EventArgs e)
-        {
-            LoadRooms(searchtxt.Text.Trim());
-        }
+        private void searchbtn_Click(object sender, EventArgs e) => LoadRooms(searchtxt.Text.Trim());
 
         private void refreshbtn_Click(object sender, EventArgs e)
         {
             searchtxt.Clear();
             ClearFields();
+            roomdatagridview.DataSource = null;
+            roomdatagridview.Columns.Clear();
             LoadRooms();
         }
 
