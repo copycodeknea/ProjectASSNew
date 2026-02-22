@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace ProjectASS
 {
-    internal class client
+    public abstract class ClientBase
     {
-        public string UserID { get; set; }
-        public string UserName { get; set; }
-        public string Phone { get; set; }
+        public int ClientId { get; set; }
+        public string ClientName { get; set; }
+        public string PhoneNumber { get; set; }
         public string Country { get; set; }
+
+        public abstract string GetClientInfo();
+    }
+
+  
+    public class Client : ClientBase
+    {
+        public override string GetClientInfo()
+        {
+            return $"{ClientName} - {PhoneNumber} - {Country}";
+        }
     }
 }
