@@ -54,19 +54,19 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Aqua;
+            this.panel1.BackColor = System.Drawing.Color.DarkTurquoise;
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(1, 1);
+            this.panel1.Location = new System.Drawing.Point(-67, 1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1198, 112);
+            this.panel1.Size = new System.Drawing.Size(1353, 82);
             this.panel1.TabIndex = 22;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(399, 35);
+            this.label1.ForeColor = System.Drawing.Color.Black;
+            this.label1.Location = new System.Drawing.Point(452, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(385, 38);
             this.label1.TabIndex = 0;
