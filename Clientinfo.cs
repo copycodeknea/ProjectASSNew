@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ProjectASS
@@ -14,10 +8,10 @@ namespace ProjectASS
     public partial class Clientinfo : Form
     {
         private int selectedClientId = 0;
+
         public Clientinfo()
         {
             InitializeComponent();
-
             clientdatagridview.CellClick += clientdatagridview_CellClick;
 
             editbtn.Enabled = false;
@@ -25,19 +19,28 @@ namespace ProjectASS
 
             this.Load += Clientinfo_Load;
         }
-        
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SaveClient(true);
-        }
-
+        // ─── LOAD ────────────────────────────────────────────────────
         private void Clientinfo_Load(object sender, EventArgs e)
         {
+            countrycombobox.Items.Clear();
+            countrycombobox.Items.AddRange(new string[]
+            {
+                "Cambodia", "Laos", "Vietnam", "China"
+            });
+            countrycombobox.SelectedIndex = 0;
 
-            LoadClients();
-
+            try
+            {
+                LoadClients();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading clients: " + ex.Message);
+            }
         }
+
+        // ─── LOAD / SEARCH ───────────────────────────────────────────
         private void LoadClients(string searchQuery = "")
         {
             try
@@ -46,13 +49,41 @@ namespace ProjectASS
                 {
                     conn.Open();
 
-                    string query = @"SELECT ClientId, Client_Name, Phone_Number, Country 
-                                     FROM Client";
+                    // Ensure Client table exists before querying
+                    using (SqlCommand checkCmd = new SqlCommand("SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'Client'", conn))
+                    {
+                        int tblCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (tblCount == 0)
+                        {
+                            var result = MessageBox.Show("Table 'Client' does not exist in the database. Create it now?",
+                                "Create Table", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            if (result == DialogResult.Yes)
+                            {
+                                string createSql = @"CREATE TABLE dbo.Client (
+                                    ClientId INT IDENTITY(1,1) PRIMARY KEY,
+                                    Client_Name NVARCHAR(200) NOT NULL,
+                                    Phone_Number NVARCHAR(50) NULL,
+                                    Country NVARCHAR(100) NULL
+                                );";
+                                using (SqlCommand createCmd = new SqlCommand(createSql, conn))
+                                {
+                                    createCmd.ExecuteNonQuery();
+                                }
+
+                                MessageBox.Show("Table 'Client' created. Reloading clients...");
+                            }
+                            else
+                            {
+                                // User declined to create table; abort loading
+                                return;
+                            }
+                        }
+                    }
+
+                    string query = "SELECT ClientId, Client_Name, Phone_Number, Country FROM Client";
 
                     if (!string.IsNullOrWhiteSpace(searchQuery))
-                    {
                         query += " WHERE Client_Name LIKE @SearchName";
-                    }
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -69,7 +100,7 @@ namespace ProjectASS
                             displayTable.Columns.Add("Client Name", typeof(string));
                             displayTable.Columns.Add("Phone Number", typeof(string));
                             displayTable.Columns.Add("Country", typeof(string));
-                            displayTable.Columns.Add("Info", typeof(string));
+                            displayTable.Columns.Add("Status", typeof(string));
 
                             foreach (DataRow row in dt.Rows)
                             {
@@ -86,17 +117,15 @@ namespace ProjectASS
                                     client.ClientName,
                                     client.PhoneNumber,
                                     client.Country,
-                                    client.GetClientInfo()
+                                    client.GetClientStatus()  // Polymorphism used
                                 );
                             }
 
-                            clientdatagridview_CellClick.DataSource = null;
-                            clientdatagridview_CellClick.Columns.Clear();
-
-                            clientdatagridview_CellClick.DataSource = displayTable;
-
-                            if (clientdatagridview_CellClick.Columns["ClientId"] != null)
-                                clientdatagridview_CellClick.Columns["ClientId"].Visible = false;
+                            clientdatagridview.DataSource = null;
+                            clientdatagridview.Columns.Clear();
+                            clientdatagridview.DataSource = displayTable;
+                            clientdatagridview.AutoGenerateColumns = true; if (clientdatagridview.Columns["ClientId"] != null)
+                                clientdatagridview.Columns["ClientId"].Visible = false;
                         }
                     }
                 }
@@ -106,6 +135,8 @@ namespace ProjectASS
                 MessageBox.Show("Error loading clients: " + ex.Message);
             }
         }
+
+        // ─── SAVE (ADD or EDIT) ──────────────────────────────────────
         private void SaveClient(bool isNew)
         {
             if (string.IsNullOrWhiteSpace(clientnametxt.Text))
@@ -127,18 +158,13 @@ namespace ProjectASS
                     conn.Open();
 
                     string query = isNew
-                        ? @"INSERT INTO Client (Client_Name, Phone_Number, Country)
-                           VALUES (@name, @phone, @country)"
-                        : @"UPDATE Client SET 
-                           Client_Name=@name,
-                           Phone_Number=@phone,
-                           Country=@country
-                           WHERE ClientId=@id";
+                        ? "git INTO Client (Client_Name, Phone_Number, Country) VALUES (@name, @phone, @country)"
+                        : "UPDATE Client SET Client_Name=@name, Phone_Number=@phone, Country=@country WHERE ClientId=@id";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@name", clientnametxt.Text);
-                        cmd.Parameters.AddWithValue("@phone", phonetxt.Text);
+                        cmd.Parameters.AddWithValue("@name", clientnametxt.Text.Trim());
+                        cmd.Parameters.AddWithValue("@phone", phonetxt.Text.Trim());
                         cmd.Parameters.AddWithValue("@country", countrycombobox.Text);
 
                         if (!isNew)
@@ -150,7 +176,9 @@ namespace ProjectASS
 
                 MessageBox.Show(isNew ? "Client added successfully!" : "Client updated successfully!");
 
-                
+                ClearAllFields();
+                clientdatagridview.DataSource = null;
+                clientdatagridview.Columns.Clear();
                 LoadClients();
             }
             catch (Exception ex)
@@ -158,33 +186,37 @@ namespace ProjectASS
                 MessageBox.Show("Error saving client: " + ex.Message);
             }
         }
-        private void button4_Click(object sender, EventArgs e)
+
+        // ─── ADD ─────────────────────────────────────────────────────
+        private void addbtn_Click(object sender, EventArgs e)
         {
-            LoadClients(searchtxt.Text.Trim());
+            SaveClient(true);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        // ─── EDIT ────────────────────────────────────────────────────
+        private void editbtn_Click(object sender, EventArgs e)
         {
             if (selectedClientId == 0)
             {
-                MessageBox.Show("Select a client to edit.");
+                MessageBox.Show("Please select a client to edit.");
                 return;
             }
 
             SaveClient(false);
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        // ─── DELETE ──────────────────────────────────────────────────
+        private void deletebtn_Click(object sender, EventArgs e)
         {
             if (selectedClientId == 0)
             {
-                MessageBox.Show("Select a client first.");
+                MessageBox.Show("Please select a client to delete.");
                 return;
             }
 
-            if (MessageBox.Show("Delete this client?", "Confirm Delete",
-                MessageBoxButtons.YesNo) != DialogResult.Yes)
-                return;
+            if (MessageBox.Show("Are you sure you want to delete this client?",
+                    "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)
+                != DialogResult.Yes) return;
 
             try
             {
@@ -192,15 +224,16 @@ namespace ProjectASS
                 {
                     conn.Open();
                     using (SqlCommand cmd = new SqlCommand(
-                        "DELETE FROM Client WHERE ClientId=@id", conn))
+                        "DELETE FROM Client WHERE ClientId = @id", conn))
                     {
                         cmd.Parameters.AddWithValue("@id", selectedClientId);
                         cmd.ExecuteNonQuery();
                     }
                 }
-
                 MessageBox.Show("Client deleted successfully!");
-                
+                ClearAllFields();
+                clientdatagridview.DataSource = null;
+                clientdatagridview.Columns.Clear();
                 LoadClients();
             }
             catch (Exception ex)
@@ -209,11 +242,25 @@ namespace ProjectASS
             }
         }
 
-        private void dgvClient_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // ─── SEARCH ──────────────────────────────────────────────────
+        private void searchbtn_Click(object sender, EventArgs e) => LoadClients(searchtxt.Text.Trim());
+
+        // ─── REFRESH ─────────────────────────────────────────────────
+        private void refreshbtn_Click(object sender, EventArgs e)
+        {
+            searchtxt.Clear();
+            ClearAllFields();
+            clientdatagridview.DataSource = null;
+            clientdatagridview.Columns.Clear();
+            LoadClients();
+        }
+
+        // ─── GRID CLICK ──────────────────────────────────────────────
+        private void clientdatagridview_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            DataGridViewRow row = clientdatagridview_CellClick.Rows[e.RowIndex];
+            DataGridViewRow row = clientdatagridview.Rows[e.RowIndex];
 
             selectedClientId = Convert.ToInt32(row.Cells["ClientId"].Value);
             clientnametxt.Text = row.Cells["Client Name"].Value.ToString();
@@ -224,12 +271,15 @@ namespace ProjectASS
             deletebtn.Enabled = true;
         }
 
-        private void ClearFields_Click(object sender, EventArgs e)
+        // ─── CLEAR ───────────────────────────────────────────────────
+        private void clearbtn_Click(object sender, EventArgs e) => ClearAllFields();
+
+        private void ClearAllFields()
         {
             selectedClientId = 0;
             clientnametxt.Clear();
             phonetxt.Clear();
-            countrycombobox.SelectedIndex = -1;
+            countrycombobox.SelectedIndex = 0;
 
             editbtn.Enabled = false;
             deletebtn.Enabled = false;

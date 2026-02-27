@@ -1,35 +1,126 @@
-﻿using ProjectASS;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-
-
 
 namespace ProjectASS
 {
     public partial class Reservation : Form
     {
         private int selectedReservationId = 0;
+
         public Reservation()
         {
             InitializeComponent();
-            reservationdatagridview.CellClick += reservationdatagridview;
+            reservationdatagridview.CellClick += reservationdatagridview_CellClick;
             this.Load += Reservation_Load;
+
+            editbtn.Enabled = false;
+            deletebtn.Enabled = false;
         }
-        
-        private void button4_Click(object sender, EventArgs e)
+
+        private void Reservation_Load(object sender, EventArgs e)
         {
-            if (!int.TryParse(searchtxt.Text, out _))
+            LoadReservations();
+        }
+
+        private void LoadReservations(int? roomIdSearch = null)
+        {
+            try
+            {
+                using (SqlConnection conn =
+                    new SqlConnection(DatabaseConfig.ConnectionString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM Reservation";
+
+                    if (roomIdSearch.HasValue)
+                        query += " WHERE RoomId = @roomId";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        if (roomIdSearch.HasValue)
+                            cmd.Parameters.AddWithValue("@roomId", roomIdSearch.Value);
+
+                        using (SqlDataAdapter adapter =
+                            new SqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            adapter.Fill(dt);
+
+                            DataTable display = new DataTable();
+                            display.Columns.Add("ReservationId", typeof(int));
+                            display.Columns.Add("Client ID", typeof(string));
+                            display.Columns.Add("Name", typeof(string));
+                            display.Columns.Add("Room ID", typeof(string));
+                            display.Columns.Add("Check In", typeof(string));
+                            display.Columns.Add("Check Out", typeof(string));
+                            display.Columns.Add("Total Days", typeof(int));
+
+                            foreach (DataRow row in dt.Rows)
+                            {
+                                int reservationId = Convert.ToInt32(row["ReservationId"]);
+                                string clientIdStr = row["ClientId"]?.ToString();
+                                string clientName = row["UserName"]?.ToString();
+                                string roomIdStr = row["RoomId"]?.ToString();
+
+                                DateTime checkIn = Convert.ToDateTime(row["CheckIn"]);
+                                DateTime checkOut = Convert.ToDateTime(row["CheckOut"]);
+
+                                int totalDays = (checkOut - checkIn).Days;
+
+                                display.Rows.Add(
+                                    reservationId,
+                                    clientIdStr,
+                                    clientName,
+                                    roomIdStr,
+                                    checkIn.ToShortDateString(),
+                                    checkOut.ToShortDateString(),
+                                    totalDays
+                                );
+                            }
+
+                            reservationdatagridview.DataSource = display;
+
+                            if (reservationdatagridview.Columns["ReservationId"] != null)
+                                reservationdatagridview.Columns["ReservationId"].Visible = false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading reservations: " + ex.Message);
+            }
+        }
+
+        // ================================
+        // SAVE (ADD / UPDATE)
+        // ================================
+        private void SaveReservation(bool isNew)
+        {
+            if (!int.TryParse(clientidtxt.Text, out int clientId))
+            {
+                MessageBox.Show("Client ID must be numeric.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(usernametxt.Text))
+            {
+                MessageBox.Show("User Name is required.");
+                return;
+            }
+
+            if (!int.TryParse(roomidtxt.Text, out int roomId))
             {
                 MessageBox.Show("Room ID must be numeric.");
+                return;
+            }
+
+            if (checkoutdate.Value <= checkindate.Value)
+            {
+                MessageBox.Show("Check-out must be after check-in.");
                 return;
             }
 
@@ -40,162 +131,125 @@ namespace ProjectASS
                 {
                     conn.Open();
 
-                    string query = @"SELECT ReservationId, ClientId, RoomId,
-                                     CheckIn, CheckOut
-                                     FROM Reservation
-                                     WHERE RoomId = @roomId";
+                    string query = isNew
+                        ? @"INSERT INTO Reservation
+                           (ClientId, UserName, RoomId, CheckIn, CheckOut)
+                           VALUES (@clientId, @userName, @roomId, @checkIn, @checkOut)"
+                        : @"UPDATE Reservation SET
+                           ClientId = @clientId,
+                           UserName = @userName,
+                           RoomId = @roomId,
+                           CheckIn = @checkIn,
+                           CheckOut = @checkOut
+                           WHERE ReservationId = @id";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        cmd.Parameters.AddWithValue("@roomId",
-                            int.Parse(searchtxt.Text));
+                        cmd.Parameters.AddWithValue("@clientId", clientId);
+                        cmd.Parameters.AddWithValue("@userName", usernametxt.Text.Trim());
+                        cmd.Parameters.AddWithValue("@roomId", roomId);
+                        cmd.Parameters.AddWithValue("@checkIn", checkindate.Value.Date);
+                        cmd.Parameters.AddWithValue("@checkOut", checkoutdate.Value.Date);
 
-                        using (SqlDataAdapter adapter =
-                            new SqlDataAdapter(cmd))
-                        {
-                            DataTable dt = new DataTable();
-                            adapter.Fill(dt);
+                        if (!isNew)
+                            cmd.Parameters.AddWithValue("@id", selectedReservationId);
 
-                            DataTable display = new DataTable();
-                            display.Columns.Add("ReservationId", typeof(int));
-                            display.Columns.Add("Client ID");
-                            display.Columns.Add("Room ID");
-                            display.Columns.Add("Check In");
-                            display.Columns.Add("Check Out");
-                            display.Columns.Add("Total Days");
-
-                            foreach (DataRow row in dt.Rows)
-                            {
-                                HotelReservation res =
-                                    new HotelReservation
-                                    {
-                                        ReservationId =
-                                            Convert.ToInt32(row["ReservationId"]),
-                                        ClientId =
-                                            Convert.ToInt32(row["ClientId"]),
-                                        RoomId =
-                                            Convert.ToInt32(row["RoomId"]),
-                                        CheckIn =
-                                            Convert.ToDateTime(row["CheckIn"]),
-                                        CheckOut =
-                                            Convert.ToDateTime(row["CheckOut"])
-                                    };
-
-                                display.Rows.Add(
-                                    res.ReservationId,
-                                    res.ClientId,
-                                    res.RoomId,
-                                    res.CheckIn.ToShortDateString(),
-                                    res.CheckOut.ToShortDateString(),
-                                    res.GetTotalDays()
-                                );
-                            }
-
-                            reservationdatagridview.DataSource = display;
-                            reservationdatagridview.Columns["ReservationId"].Visible = false;
-                        }
+                        cmd.ExecuteNonQuery();
                     }
                 }
+
+                MessageBox.Show(isNew ? "Reservation added!"
+                                      : "Reservation updated!");
+
+                ClearFields();
+                LoadReservations();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Search Error: " + ex.Message);
+                MessageBox.Show("Save Error: " + ex.Message);
+            }
+        }
+
+        private void addbtn_Click(object sender, EventArgs e)
+        {
+            SaveReservation(true);
+        }
+
+        private void editbtn_Click(object sender, EventArgs e)
+        {
+            if (selectedReservationId == 0)
+            {
+                MessageBox.Show("Select a reservation first.");
+                return;
             }
 
+            SaveReservation(false);
         }
-        private void reservationdatagridview_CellClick(object sender,
-            DataGridViewCellEventArgs e)
+
+        private void deletebtn_Click(object sender, EventArgs e)
+        {
+            if (selectedReservationId == 0)
+            {
+                MessageBox.Show("Select a reservation first.");
+                return;
+            }
+
+            if (MessageBox.Show("Delete this reservation?",
+                "Confirm", MessageBoxButtons.YesNo) != DialogResult.Yes)
+                return;
+
+            using (SqlConnection conn =
+                new SqlConnection(DatabaseConfig.ConnectionString))
+            {
+                conn.Open();
+                using (SqlCommand cmd =
+                    new SqlCommand("DELETE FROM Reservation WHERE ReservationId=@id", conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", selectedReservationId);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+            MessageBox.Show("Deleted successfully!");
+            ClearFields();
+            LoadReservations();
+        }
+
+        private void reservationdatagridview_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
             DataGridViewRow row =
                 reservationdatagridview.Rows[e.RowIndex];
 
-            selectedReservationId =
-                Convert.ToInt32(row.Cells["ReservationId"].Value);
+            if (int.TryParse(row.Cells["ReservationId"].Value?.ToString(), out int rid))
+                selectedReservationId = rid;
 
-            useridtxt.Text = row.Cells["Client ID"].Value.ToString();
-            usernametxt.Text = row.Cells["Name"].Value.ToString();
-            checkindate.Value =
-                Convert.ToDateTime(row.Cells["Check In"].Value);
-            checkoutdate.Value =
-                Convert.ToDateTime(row.Cells["Check Out"].Value);
-        }
-        private void Reservation_Load(object sender, EventArgs e)
-        {
-            LoadReservations();
-        }
-        private void LoadReservations()
-        {
-            try
-            {
-                using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
-                {
-                    conn.Open();
+            clientidtxt.Text = row.Cells["Client ID"].Value?.ToString();
+            usernametxt.Text = row.Cells["Name"].Value?.ToString();
+            roomidtxt.Text = row.Cells["Room ID"].Value?.ToString();
 
-                    string query = @"SELECT ReservationId, ClientId, RoomId, CheckIn, CheckOut 
-                                     FROM Reservation";
+            DateTime.TryParse(row.Cells["Check In"].Value?.ToString(), out DateTime ci);
+            DateTime.TryParse(row.Cells["Check Out"].Value?.ToString(), out DateTime co);
 
-                    using (SqlDataAdapter adapter = new SqlDataAdapter(query, conn))
-                    {
-                        DataTable dt = new DataTable();
-                        adapter.Fill(dt);
+            checkindate.Value = ci;
+            checkoutdate.Value = co;
 
-                        DataTable displayTable = new DataTable();
-                        displayTable.Columns.Add("ReservationId", typeof(int));
-                        displayTable.Columns.Add("Client ID", typeof(int));
-                        displayTable.Columns.Add("Room ID", typeof(int));
-                        displayTable.Columns.Add("Check In", typeof(DateTime));
-                        displayTable.Columns.Add("Check Out", typeof(DateTime));
-                        displayTable.Columns.Add("Days", typeof(int));
-
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            HotelReservation reservation = new HotelReservation
-                            {
-                                ReservationId = Convert.ToInt32(row["ReservationId"]),
-                                ClientId = Convert.ToInt32(row["ClientId"]),
-                                RoomId = Convert.ToInt32(row["RoomId"]),
-                                CheckIn = Convert.ToDateTime(row["CheckIn"]),
-                                CheckOut = Convert.ToDateTime(row["CheckOut"])
-                            };
-
-                            displayTable.Rows.Add(
-                                reservation.ReservationId,
-                                reservation.ClientId,
-                                reservation.RoomId,
-                                reservation.CheckIn,
-                                reservation.CheckOut,
-                                reservation.GetTotalDays()
-                            );
-                        }
-
-                        reservationdatagridview.DataSource = displayTable;
-
-                        if (reservationdatagridview.Columns["ReservationId"] != null)
-                            reservationdatagridview.Columns["ReservationId"].Visible = false;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading reservations: " + ex.Message);
-            }
+            editbtn.Enabled = true;
+            deletebtn.Enabled = true;
         }
 
-        private void cboRoom_SelectedIndexChanged(object sender, EventArgs e)
+        private void ClearFields()
         {
+            selectedReservationId = 0;
+            clientidtxt.Clear();
+            usernametxt.Clear();
+            roomidtxt.Clear();
+            checkindate.Value = DateTime.Today;
+            checkoutdate.Value = DateTime.Today.AddDays(1);
 
-        }
-
-        private void dgvReservation_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-           
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-           
+            editbtn.Enabled = false;
+            deletebtn.Enabled = false;
         }
     }
 }
