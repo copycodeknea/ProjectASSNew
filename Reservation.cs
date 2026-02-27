@@ -226,5 +226,10 @@ namespace ProjectASS
             if (Checkoutdatetimepicker.Value <= Checkindatetimepicker.Value)
                 MessageBox.Show("Check-out must be after check-in.");
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
