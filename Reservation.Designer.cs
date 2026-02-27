@@ -75,7 +75,7 @@
             // PhoneNumbertxt
             // 
             this.PhoneNumbertxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PhoneNumbertxt.ForeColor = System.Drawing.SystemColors.Window;
+            this.PhoneNumbertxt.ForeColor = System.Drawing.SystemColors.InfoText;
             this.PhoneNumbertxt.Location = new System.Drawing.Point(252, 274);
             this.PhoneNumbertxt.Name = "PhoneNumbertxt";
             this.PhoneNumbertxt.Size = new System.Drawing.Size(243, 34);
@@ -84,7 +84,7 @@
             // Nametxt
             // 
             this.Nametxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Nametxt.ForeColor = System.Drawing.SystemColors.Window;
+            this.Nametxt.ForeColor = System.Drawing.SystemColors.InfoText;
             this.Nametxt.Location = new System.Drawing.Point(252, 221);
             this.Nametxt.Name = "Nametxt";
             this.Nametxt.Size = new System.Drawing.Size(243, 34);
@@ -168,7 +168,7 @@
             // Searchtxt
             // 
             this.Searchtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Searchtxt.ForeColor = System.Drawing.SystemColors.Window;
+            this.Searchtxt.ForeColor = System.Drawing.SystemColors.InfoText;
             this.Searchtxt.Location = new System.Drawing.Point(725, 155);
             this.Searchtxt.Name = "Searchtxt";
             this.Searchtxt.Size = new System.Drawing.Size(243, 34);
@@ -210,7 +210,7 @@
             // Roomtxt
             // 
             this.Roomtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Roomtxt.ForeColor = System.Drawing.SystemColors.Window;
+            this.Roomtxt.ForeColor = System.Drawing.SystemColors.InfoText;
             this.Roomtxt.Location = new System.Drawing.Point(252, 335);
             this.Roomtxt.Name = "Roomtxt";
             this.Roomtxt.Size = new System.Drawing.Size(243, 34);

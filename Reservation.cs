@@ -31,7 +31,6 @@ namespace ProjectASS
             reservationdatagridview.Columns.Clear();
             reservationdatagridview.AutoGenerateColumns = false;
 
-            // Show Reservation ID (read-only)
             reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "ReservationId",
@@ -40,7 +39,6 @@ namespace ProjectASS
                 ReadOnly = true
             });
 
-            // Client/UserName
             reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "UserName",
@@ -48,7 +46,14 @@ namespace ProjectASS
                 DataPropertyName = "UserName"
             });
 
-            // Room
+            // PHONE COLUMN
+            reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = "PhoneNumber",
+                HeaderText = "Phone",
+                DataPropertyName = "PhoneNumber"
+            });
+
             reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "RoomId",
@@ -56,13 +61,13 @@ namespace ProjectASS
                 DataPropertyName = "RoomId"
             });
 
-            // Check-in / Check-out
             reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "CheckIn",
                 HeaderText = "Check In",
                 DataPropertyName = "CheckIn"
             });
+
             reservationdatagridview.Columns.Add(new DataGridViewTextBoxColumn
             {
                 Name = "CheckOut",
@@ -77,21 +82,25 @@ namespace ProjectASS
             {
                 conn.Open();
 
-                string query = "SELECT ReservationId, UserName, RoomId, CheckIn, CheckOut FROM Reservation";
+                // match your table schema exactly
+                string query = "SELECT ReservationId, UserName, PhoneNumber, RoomId, CheckIn, CheckOut FROM Reservation";
 
                 if (!string.IsNullOrWhiteSpace(search))
                     query += " WHERE UserName LIKE @Search";
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    if (!string.IsNullOrWhiteSpace(search))
+                        cmd.Parameters.AddWithValue("@Search", "%" + search + "%");
 
-                if (!string.IsNullOrWhiteSpace(search))
-                    cmd.Parameters.AddWithValue("@Search", "%" + search + "%");
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                reservationdatagridview.DataSource = dt;
+                        reservationdatagridview.DataSource = dt;
+                    }
+                }
             }
         }
 
@@ -99,34 +108,33 @@ namespace ProjectASS
         {
             try
             {
-                HotelReservation reservation = new HotelReservation
-                {
-                    UserName = Nametxt.Text.Trim(),
-                    RoomId = Roomtxt.Text.Trim(),
-                    CheckIn = Checkindatetimepicker.Value,
-                    CheckOut = Checkoutdatetimepicker.Value
-                };
-
-                reservation.Validate();
-
                 using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
 
                     string query = isNew
-                        ? "INSERT INTO Reservation (UserName, RoomId, CheckIn, CheckOut) VALUES (@UserName, @Room, @CheckIn, @CheckOut)"
-                        : "UPDATE Reservation SET UserName=@UserName, RoomId=@Room, CheckIn=@CheckIn, CheckOut=@CheckOut WHERE ReservationId=@ID";
+                        ? "INSERT INTO Reservation (UserName, PhoneNumber, RoomId, CheckIn, CheckOut) VALUES (@UserName, @Phone, @Room, @CheckIn, @CheckOut)"
+                        : "UPDATE Reservation SET UserName=@UserName, PhoneNumber=@Phone, RoomId=@Room, CheckIn=@CheckIn, CheckOut=@CheckOut WHERE ReservationId=@ID";
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@UserName", reservation.UserName);
-                    cmd.Parameters.AddWithValue("@Room", reservation.RoomId);
-                    cmd.Parameters.AddWithValue("@CheckIn", reservation.CheckIn);
-                    cmd.Parameters.AddWithValue("@CheckOut", reservation.CheckOut);
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        // Designer controls: Nametxt, PhoneNumbertxt, Roomtxt, Checkindatetimepicker, Checkoutdatetimepicker
+                        cmd.Parameters.AddWithValue("@UserName", Nametxt.Text.Trim());
 
-                    if (!isNew)
-                        cmd.Parameters.AddWithValue("@ID", selectedReservationID);
+                        var phoneText = string.Empty;
+                        if (this.PhoneNumbertxt != null)
+                            phoneText = PhoneNumbertxt.Text.Trim();
 
-                    cmd.ExecuteNonQuery();
+                        cmd.Parameters.AddWithValue("@Phone", string.IsNullOrEmpty(phoneText) ? (object)DBNull.Value : (object)phoneText);
+                        cmd.Parameters.AddWithValue("@Room", Roomtxt.Text.Trim());
+                        cmd.Parameters.AddWithValue("@CheckIn", Checkindatetimepicker.Value);
+                        cmd.Parameters.AddWithValue("@CheckOut", Checkoutdatetimepicker.Value);
+
+                        if (!isNew)
+                            cmd.Parameters.AddWithValue("@ID", selectedReservationID);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
                 MessageBox.Show(isNew ? "Reservation added!" : "Reservation updated!");
@@ -167,10 +175,11 @@ namespace ProjectASS
             using (SqlConnection conn = new SqlConnection(DatabaseConfig.ConnectionString))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand(
-                    "DELETE FROM Reservation WHERE ReservationId=@ID", conn);
-                cmd.Parameters.AddWithValue("@ID", selectedReservationID);
-                cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM Reservation WHERE ReservationId=@ID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@ID", selectedReservationID);
+                    cmd.ExecuteNonQuery();
+                }
             }
 
             MessageBox.Show("Reservation deleted.");
@@ -178,7 +187,11 @@ namespace ProjectASS
             LoadReservations();
         }
 
-        private void Searchbtn_Click(object sender, EventArgs e) => LoadReservations(Searchtxt.Text.Trim());
+        // Event wired in Designer
+        private void Searchbtn_Click(object sender, EventArgs e)
+        {
+            LoadReservations(Searchtxt.Text.Trim());
+        }
 
         private void BackBtn_Click(object sender, EventArgs e)
         {
@@ -194,10 +207,25 @@ namespace ProjectASS
             DataGridViewRow row = reservationdatagridview.Rows[e.RowIndex];
 
             selectedReservationID = Convert.ToInt32(row.Cells["ReservationId"].Value);
-            Nametxt.Text = row.Cells["UserName"].Value.ToString();
-            Roomtxt.Text = row.Cells["RoomId"].Value.ToString();
-            Checkindatetimepicker.Value = Convert.ToDateTime(row.Cells["CheckIn"].Value);
-            Checkoutdatetimepicker.Value = Convert.ToDateTime(row.Cells["CheckOut"].Value);
+            Nametxt.Text = row.Cells["UserName"].Value?.ToString() ?? string.Empty;
+
+            // load phone safely if column present in grid
+            if (reservationdatagridview.Columns.Contains("PhoneNumber"))
+            {
+                var cell = row.Cells["PhoneNumber"].Value;
+                PhoneNumbertxt.Text = (cell != null && cell != DBNull.Value) ? cell.ToString() : string.Empty;
+            }
+            else
+            {
+                PhoneNumbertxt.Clear();
+            }
+
+            Roomtxt.Text = row.Cells["RoomId"].Value?.ToString() ?? string.Empty;
+
+            if (DateTime.TryParse(row.Cells["CheckIn"].Value?.ToString(), out DateTime ci))
+                Checkindatetimepicker.Value = ci;
+            if (DateTime.TryParse(row.Cells["CheckOut"].Value?.ToString(), out DateTime co))
+                Checkoutdatetimepicker.Value = co;
 
             EditBtn.Enabled = true;
             DeleteBtn.Enabled = true;
@@ -206,8 +234,11 @@ namespace ProjectASS
         private void ClearFields()
         {
             selectedReservationID = 0;
+
             Nametxt.Clear();
+            PhoneNumbertxt.Clear();
             Roomtxt.Clear();
+
             Checkindatetimepicker.Value = DateTime.Now;
             Checkoutdatetimepicker.Value = DateTime.Now.AddDays(1);
 
