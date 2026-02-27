@@ -16,7 +16,7 @@ namespace ProjectASS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Staffinfo());
+            Application.Run(new Clientinfo());
         }
     }
 }
