@@ -48,6 +48,12 @@
             this.EditBtn = new System.Windows.Forms.Button();
             this.DeleteBtn = new System.Windows.Forms.Button();
             this.BackBtn = new System.Windows.Forms.Button();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reservationdatagridview)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +72,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(452, 24);
+            this.label1.Location = new System.Drawing.Point(469, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(385, 38);
             this.label1.TabIndex = 0;
@@ -93,22 +99,22 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Blue;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(14, 226);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(135, 29);
+            this.label4.Size = new System.Drawing.Size(146, 29);
             this.label4.TabIndex = 25;
-            this.label4.Text = "UseName ";
+            this.label4.Text = "Client Name";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.Blue;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(14, 288);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(188, 29);
+            this.label3.Size = new System.Drawing.Size(176, 29);
             this.label3.TabIndex = 24;
             this.label3.Text = "Phone Number";
             // 
@@ -133,33 +139,33 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Blue;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(14, 408);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(119, 29);
+            this.label5.Size = new System.Drawing.Size(111, 29);
             this.label5.TabIndex = 31;
             this.label5.Text = "Check IN";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Blue;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(15, 475);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(134, 29);
+            this.label6.Size = new System.Drawing.Size(125, 29);
             this.label6.TabIndex = 32;
             this.label6.Text = "Check Out";
             // 
             // Searchbtn
             // 
-            this.Searchbtn.BackColor = System.Drawing.Color.Blue;
+            this.Searchbtn.BackColor = System.Drawing.Color.Gray;
             this.Searchbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Searchbtn.ForeColor = System.Drawing.Color.White;
-            this.Searchbtn.Location = new System.Drawing.Point(964, 137);
+            this.Searchbtn.Location = new System.Drawing.Point(974, 147);
             this.Searchbtn.Name = "Searchbtn";
-            this.Searchbtn.Size = new System.Drawing.Size(122, 52);
+            this.Searchbtn.Size = new System.Drawing.Size(109, 41);
             this.Searchbtn.TabIndex = 39;
             this.Searchbtn.Text = "Search";
             this.Searchbtn.UseVisualStyleBackColor = false;
@@ -176,36 +182,48 @@
             // 
             // reservationdatagridview
             // 
+            this.reservationdatagridview.BackgroundColor = System.Drawing.Color.White;
             this.reservationdatagridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.reservationdatagridview.Location = new System.Drawing.Point(544, 201);
+            this.reservationdatagridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3,
+            this.Column4,
+            this.Column5,
+            this.Column6});
+            this.reservationdatagridview.Location = new System.Drawing.Point(514, 201);
             this.reservationdatagridview.Name = "reservationdatagridview";
             this.reservationdatagridview.RowHeadersWidth = 51;
             this.reservationdatagridview.RowTemplate.Height = 24;
-            this.reservationdatagridview.Size = new System.Drawing.Size(644, 443);
+            this.reservationdatagridview.Size = new System.Drawing.Size(674, 443);
             this.reservationdatagridview.TabIndex = 37;
             // 
             // Refreshbtn
             // 
+            this.Refreshbtn.BackColor = System.Drawing.Color.Transparent;
             this.Refreshbtn.BackgroundImage = global::ProjectASS.Properties.Resources.reloading;
             this.Refreshbtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Refreshbtn.FlatAppearance.BorderSize = 0;
+            this.Refreshbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Refreshbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Refreshbtn.ForeColor = System.Drawing.Color.White;
-            this.Refreshbtn.Location = new System.Drawing.Point(1092, 128);
+            this.Refreshbtn.ForeColor = System.Drawing.Color.Transparent;
+            this.Refreshbtn.Location = new System.Drawing.Point(1099, 143);
             this.Refreshbtn.Name = "Refreshbtn";
-            this.Refreshbtn.Size = new System.Drawing.Size(67, 61);
+            this.Refreshbtn.Size = new System.Drawing.Size(54, 48);
             this.Refreshbtn.TabIndex = 40;
-            this.Refreshbtn.UseVisualStyleBackColor = true;
+            this.Refreshbtn.UseVisualStyleBackColor = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Blue;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F);
+            this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(14, 340);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 29);
+            this.label2.Size = new System.Drawing.Size(78, 29);
             this.label2.TabIndex = 41;
             this.label2.Text = "Room";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // Roomtxt
             // 
@@ -268,6 +286,48 @@
             this.BackBtn.UseVisualStyleBackColor = false;
             this.BackBtn.Click += new System.EventHandler(this.BackBtn_Click);
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Reservation ID";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 125;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Name";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 125;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Phone Number";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 125;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Room";
+            this.Column4.MinimumWidth = 6;
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 125;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Check In";
+            this.Column5.MinimumWidth = 6;
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 125;
+            // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Check Out";
+            this.Column6.MinimumWidth = 6;
+            this.Column6.Name = "Column6";
+            this.Column6.Width = 125;
+            // 
             // Reservation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -292,6 +352,7 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Reservation";
             this.Text = "Reservation";
             this.panel1.ResumeLayout(false);
@@ -324,5 +385,11 @@
         private System.Windows.Forms.Button EditBtn;
         private System.Windows.Forms.Button DeleteBtn;
         private System.Windows.Forms.Button BackBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column6;
     }
 }

@@ -6,6 +6,7 @@ namespace ProjectASS
     {
         public int ReservationID { get; set; }   // Auto-generated in DB
         public string UserName { get; set; }     // Client name
+        public string PhoneNumber { get; set; }    // Client phone number
         public string RoomId { get; set; }       // Room number or ID
         public DateTime CheckIn { get; set; }    // Check-in date
         public DateTime CheckOut { get; set; }   // Check-out date
