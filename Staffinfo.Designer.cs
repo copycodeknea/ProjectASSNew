@@ -40,6 +40,11 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.staffdatagridview = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.refreshbtn = new System.Windows.Forms.Button();
             this.searchbtn = new System.Windows.Forms.Button();
             this.searchtxt = new System.Windows.Forms.TextBox();
@@ -47,11 +52,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.positiontxt = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.backbtn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.staffdatagridview)).BeginInit();
@@ -193,6 +193,41 @@
             this.staffdatagridview.Size = new System.Drawing.Size(702, 443);
             this.staffdatagridview.TabIndex = 22;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Staff ID";
+            this.Column1.MinimumWidth = 6;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 120;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Position";
+            this.Column4.MinimumWidth = 6;
+            this.Column4.Name = "Column4";
+            this.Column4.Width = 120;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Gender";
+            this.Column5.MinimumWidth = 6;
+            this.Column5.Name = "Column5";
+            this.Column5.Width = 120;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Phone Number";
+            this.Column3.MinimumWidth = 6;
+            this.Column3.Name = "Column3";
+            this.Column3.Width = 130;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Staff Name";
+            this.Column2.MinimumWidth = 6;
+            this.Column2.Name = "Column2";
+            this.Column2.Width = 130;
+            // 
             // refreshbtn
             // 
             this.refreshbtn.BackColor = System.Drawing.Color.Transparent;
@@ -271,41 +306,6 @@
             this.label2.TabIndex = 14;
             this.label2.Text = "Staff ID";
             // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Staff ID";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 120;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Position";
-            this.Column4.MinimumWidth = 6;
-            this.Column4.Name = "Column4";
-            this.Column4.Width = 120;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Gender";
-            this.Column5.MinimumWidth = 6;
-            this.Column5.Name = "Column5";
-            this.Column5.Width = 120;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Phone Number";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.Width = 130;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Staff Name";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.Width = 130;
-            // 
             // backbtn
             // 
             this.backbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -344,6 +344,7 @@
             this.Controls.Add(this.addbtn);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Staffinfo";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Staffinfo";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -154,5 +154,8 @@
   <ItemGroup>
     <None Include="Resources\reloading.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\laoclassic-kompong-phluk-village-5149340_1920.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -142,4 +142,7 @@
   <data name="reloading" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\reloading.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="laoclassic-kompong-phluk-village-5149340_1920" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\laoclassic-kompong-phluk-village-5149340_1920.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
