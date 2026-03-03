@@ -21,5 +21,34 @@ namespace ProjectASS
         {
 
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Clientinfo clientinfo = new Clientinfo();
+            clientinfo.Show();
+            this.Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Staffinfo staffinfo = new Staffinfo();  
+            staffinfo.Show();
+            this.Hide();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Room room = new Room();
+            room.Show();
+            this.Hide();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Reservation resevation =new Reservation();
+            resevation.Show();
+            this.Hide();
+        }
     }
 }
