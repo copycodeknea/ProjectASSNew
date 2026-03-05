@@ -60,7 +60,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-54, -1);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1303, 75);
+            this.panel1.Size = new System.Drawing.Size(1368, 75);
             this.panel1.TabIndex = 0;
             // 
             // label1
@@ -68,7 +68,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(492, 19);
+            this.label1.Location = new System.Drawing.Point(564, 21);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(288, 38);
             this.label1.TabIndex = 0;
@@ -179,7 +179,7 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.clientdatagridview.Location = new System.Drawing.Point(517, 211);
+            this.clientdatagridview.Location = new System.Drawing.Point(556, 198);
             this.clientdatagridview.Name = "clientdatagridview";
             this.clientdatagridview.RowHeadersWidth = 51;
             this.clientdatagridview.RowTemplate.Height = 24;
@@ -218,7 +218,7 @@
             // 
             this.Searchtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Searchtxt.ForeColor = System.Drawing.Color.Black;
-            this.Searchtxt.Location = new System.Drawing.Point(662, 152);
+            this.Searchtxt.Location = new System.Drawing.Point(663, 134);
             this.Searchtxt.Name = "Searchtxt";
             this.Searchtxt.Size = new System.Drawing.Size(243, 34);
             this.Searchtxt.TabIndex = 12;
@@ -228,7 +228,7 @@
             this.SearchBtn.BackColor = System.Drawing.Color.Gray;
             this.SearchBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SearchBtn.ForeColor = System.Drawing.Color.White;
-            this.SearchBtn.Location = new System.Drawing.Point(912, 150);
+            this.SearchBtn.Location = new System.Drawing.Point(912, 132);
             this.SearchBtn.Name = "SearchBtn";
             this.SearchBtn.Size = new System.Drawing.Size(109, 41);
             this.SearchBtn.TabIndex = 13;
@@ -244,7 +244,7 @@
             this.RefreshBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.RefreshBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RefreshBtn.ForeColor = System.Drawing.Color.Transparent;
-            this.RefreshBtn.Location = new System.Drawing.Point(1044, 143);
+            this.RefreshBtn.Location = new System.Drawing.Point(1036, 128);
             this.RefreshBtn.Name = "RefreshBtn";
             this.RefreshBtn.Size = new System.Drawing.Size(54, 48);
             this.RefreshBtn.TabIndex = 14;
@@ -255,7 +255,7 @@
             // 
             this.BackBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BackBtn.ForeColor = System.Drawing.Color.Thistle;
-            this.BackBtn.Location = new System.Drawing.Point(60, 621);
+            this.BackBtn.Location = new System.Drawing.Point(60, 606);
             this.BackBtn.Name = "BackBtn";
             this.BackBtn.Size = new System.Drawing.Size(122, 52);
             this.BackBtn.TabIndex = 15;
@@ -288,7 +288,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1198, 717);
+            this.ClientSize = new System.Drawing.Size(1280, 670);
             this.Controls.Add(this.Countrytxt);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BackBtn);

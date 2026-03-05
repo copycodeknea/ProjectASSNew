@@ -64,7 +64,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(-19, -3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1219, 75);
+            this.panel1.Size = new System.Drawing.Size(1306, 75);
             this.panel1.TabIndex = 22;
             // 
             // label1
@@ -72,7 +72,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 19.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Black;
-            this.label1.Location = new System.Drawing.Point(454, 18);
+            this.label1.Location = new System.Drawing.Point(507, 22);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(290, 38);
             this.label1.TabIndex = 0;
@@ -204,6 +204,7 @@
             // 
             // roomdatagridview
             // 
+            this.roomdatagridview.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.roomdatagridview.BackgroundColor = System.Drawing.Color.White;
             this.roomdatagridview.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.roomdatagridview.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -212,11 +213,11 @@
             this.Column5,
             this.Column2,
             this.Column3});
-            this.roomdatagridview.Location = new System.Drawing.Point(528, 172);
+            this.roomdatagridview.Location = new System.Drawing.Point(501, 172);
             this.roomdatagridview.Name = "roomdatagridview";
             this.roomdatagridview.RowHeadersWidth = 51;
             this.roomdatagridview.RowTemplate.Height = 24;
-            this.roomdatagridview.Size = new System.Drawing.Size(644, 443);
+            this.roomdatagridview.Size = new System.Drawing.Size(752, 443);
             this.roomdatagridview.TabIndex = 33;
             // 
             // Column1
@@ -224,35 +225,30 @@
             this.Column1.HeaderText = "Room ID";
             this.Column1.MinimumWidth = 6;
             this.Column1.Name = "Column1";
-            this.Column1.Width = 150;
             // 
             // Column4
             // 
             this.Column4.HeaderText = "Bed Type";
             this.Column4.MinimumWidth = 6;
             this.Column4.Name = "Column4";
-            this.Column4.Width = 125;
             // 
             // Column5
             // 
             this.Column5.HeaderText = "Price";
             this.Column5.MinimumWidth = 6;
             this.Column5.Name = "Column5";
-            this.Column5.Width = 125;
             // 
             // Column2
             // 
             this.Column2.HeaderText = "Floor Number";
             this.Column2.MinimumWidth = 6;
             this.Column2.Name = "Column2";
-            this.Column2.Width = 150;
             // 
             // Column3
             // 
             this.Column3.HeaderText = "Room Availibility";
             this.Column3.MinimumWidth = 6;
             this.Column3.Name = "Column3";
-            this.Column3.Width = 150;
             // 
             // refreshbtn
             // 
@@ -339,7 +335,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1198, 650);
+            this.ClientSize = new System.Drawing.Size(1280, 670);
             this.Controls.Add(this.bedtypecombobox);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.pricetxt);

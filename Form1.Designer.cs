@@ -35,6 +35,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.Passwordtxt = new System.Windows.Forms.TextBox();
+            this.Closebtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             this.Emailtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Emailtxt.Location = new System.Drawing.Point(605, 172);
             this.Emailtxt.Name = "Emailtxt";
-            this.Emailtxt.Size = new System.Drawing.Size(208, 30);
+            this.Emailtxt.Size = new System.Drawing.Size(232, 30);
             this.Emailtxt.TabIndex = 2;
             // 
             // Loginbtn
@@ -78,7 +79,7 @@
             this.Loginbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Loginbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Loginbtn.ForeColor = System.Drawing.Color.Black;
-            this.Loginbtn.Location = new System.Drawing.Point(639, 353);
+            this.Loginbtn.Location = new System.Drawing.Point(626, 354);
             this.Loginbtn.Name = "Loginbtn";
             this.Loginbtn.Size = new System.Drawing.Size(154, 50);
             this.Loginbtn.TabIndex = 5;
@@ -102,7 +103,7 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(632, 50);
+            this.label3.Location = new System.Drawing.Point(649, 52);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 42);
             this.label3.TabIndex = 7;
@@ -114,8 +115,18 @@
             this.Passwordtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Passwordtxt.Location = new System.Drawing.Point(605, 254);
             this.Passwordtxt.Name = "Passwordtxt";
-            this.Passwordtxt.Size = new System.Drawing.Size(208, 30);
+            this.Passwordtxt.Size = new System.Drawing.Size(232, 30);
             this.Passwordtxt.TabIndex = 8;
+            // 
+            // Closebtn
+            // 
+            this.Closebtn.Location = new System.Drawing.Point(871, -1);
+            this.Closebtn.Name = "Closebtn";
+            this.Closebtn.Size = new System.Drawing.Size(30, 29);
+            this.Closebtn.TabIndex = 9;
+            this.Closebtn.Text = "X";
+            this.Closebtn.UseVisualStyleBackColor = true;
+            this.Closebtn.Click += new System.EventHandler(this.Closebtn_Click);
             // 
             // Form1
             // 
@@ -124,6 +135,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(900, 450);
+            this.Controls.Add(this.Closebtn);
             this.Controls.Add(this.Passwordtxt);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
@@ -150,6 +162,7 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox Passwordtxt;
+        private System.Windows.Forms.Button Closebtn;
     }
 }
 

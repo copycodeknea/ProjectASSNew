@@ -78,5 +78,10 @@ namespace ProjectASS
                 MessageBox.Show("Database error: " + ex.Message);
             }
         }
+
+        private void Closebtn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
