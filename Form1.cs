@@ -50,7 +50,7 @@ namespace ProjectASS
                     conn.Open();
 
                     // ✅ Cleaner SQL query
-                    string query = "SELECT 1 FROM Users WHERE Email=@Email AND Password=@Password";
+                    string query = "SELECT 1 FROM Login WHERE Email=@Email AND Password=@Password";
                     SqlCommand cmd = new SqlCommand(query, conn);
 
                     cmd.Parameters.AddWithValue("@Email", email);

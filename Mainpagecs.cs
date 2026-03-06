@@ -26,28 +26,24 @@ namespace ProjectASS
         {
             Clientinfo clientInfoForm = new Clientinfo();
             clientInfoForm.ShowDialog();
-            this.Close();
         }
 
         private void Staffbtn_Click(object sender, EventArgs e)
         {
             Staffinfo staffInfoForm = new Staffinfo();
             staffInfoForm.ShowDialog();
-            this.Close();
         }
 
         private void Roombtn_Click(object sender, EventArgs e)
         {
             Room Roomform = new Room();
             Roomform.ShowDialog();
-            this.Close();
         }
 
         private void Reservationbtn_Click(object sender, EventArgs e)
         {
             Reservation Reservationform = new Reservation();
             Reservationform.ShowDialog();
-            this.Close();
         }
 
         private void Closebtn_Click(object sender, EventArgs e)

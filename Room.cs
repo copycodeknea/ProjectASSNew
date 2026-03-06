@@ -284,8 +284,6 @@ namespace ProjectASS
 
         private void backbtn_Click(object sender, EventArgs e)
         {
-            Mainpagecs mainpage = new Mainpagecs();
-            mainpage.Show();
             this.Close();
         }
     }
