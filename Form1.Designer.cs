@@ -32,10 +32,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.Emailtxt = new System.Windows.Forms.TextBox();
             this.Loginbtn = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.Passwordtxt = new System.Windows.Forms.TextBox();
             this.Closebtn = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,23 +87,13 @@
             this.Loginbtn.UseVisualStyleBackColor = false;
             this.Loginbtn.Click += new System.EventHandler(this.Loginbtn_Click_1);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::ProjectASS.Properties.Resources.laoclassic_kompong_phluk_village_5149340_1920;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(-1, -1);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(446, 483);
-            this.pictureBox1.TabIndex = 6;
-            this.pictureBox1.TabStop = false;
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 22.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
-            this.label3.Location = new System.Drawing.Point(649, 52);
+            this.label3.Location = new System.Drawing.Point(642, 42);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(121, 42);
             this.label3.TabIndex = 7;
@@ -127,6 +117,16 @@
             this.Closebtn.Text = "X";
             this.Closebtn.UseVisualStyleBackColor = true;
             this.Closebtn.Click += new System.EventHandler(this.Closebtn_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackgroundImage = global::ProjectASS.Properties.Resources.laoclassic_kompong_phluk_village_5149340_1920;
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox1.Location = new System.Drawing.Point(-1, -1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(446, 483);
+            this.pictureBox1.TabIndex = 6;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
