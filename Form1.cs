@@ -13,7 +13,7 @@ namespace ProjectASS
             InitializeComponent();
         }
 
-        // 🔐 Password Hash Method
+        // 🔐 Password Hash Method (must match SignupForm.HashPassword)
         public static string HashPassword(string password)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -33,14 +33,12 @@ namespace ProjectASS
             string email = Emailtxt.Text.Trim();
             string password = Passwordtxt.Text;
 
-            // ✅ Input validation
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Please enter both email and password.");
                 return;
             }
 
-            // Hash the entered password
             string hashedPassword = HashPassword(password);
 
             try
@@ -49,27 +47,57 @@ namespace ProjectASS
                 {
                     conn.Open();
 
-                    // ✅ Cleaner SQL query
-                    string query = "SELECT 1 FROM Login WHERE Email=@Email AND Password=@Password";
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    // Check Login table first, then Signup table as fallback
+                    string storedPassword = null;
 
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
-
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
+                    // Try dbo.Login
+                    using (SqlCommand cmd = new SqlCommand("SELECT Password FROM Login WHERE Email = @Email", conn))
                     {
-                        MessageBox.Show("Login successful!");
+                        cmd.Parameters.AddWithValue("@Email", email);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                            storedPassword = result.ToString();
+                    }
 
-                        Mainpagecs mainpagecs = new Mainpagecs();
-                        this.Hide();
-                        mainpagecs.ShowDialog();
+                    // Fallback: try dbo.Signup if not found in Login
+                    if (storedPassword == null)
+                    {
+                        using (SqlCommand cmd = new SqlCommand("SELECT Password FROM Signup WHERE Email = @Email", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@Email", email);
+                            object result = cmd.ExecuteScalar();
+                            if (result != null && result != DBNull.Value)
+                                storedPassword = result.ToString();
+                        }
+                    }
+
+                    if (storedPassword == null)
+                    {
+                        // ✅ User has no account → ask to go to signup
+                        var answer = MessageBox.Show(
+                            "This email is not registered.\nWould you like to go to the Sign Up page?",
+                            "No Account Found",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+
+                        if (answer == DialogResult.Yes)
+                        {
+                            this.DialogResult = DialogResult.Retry; // signal: go to signup
+                            this.Close();
+                        }
+                        return;
+                    }
+
+                    // Compare hashed password
+                    if (string.Equals(storedPassword, hashedPassword, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // ✅ Login success → go to main menu
+                        this.DialogResult = DialogResult.OK;
                         this.Close();
                     }
                     else
                     {
-                        MessageBox.Show("Invalid email or password.");
+                        MessageBox.Show("Invalid password. Please try again.");
                     }
                 }
             }

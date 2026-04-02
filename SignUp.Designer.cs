@@ -75,7 +75,7 @@
             this.Semailtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Semailtxt.Location = new System.Drawing.Point(605, 172);
             this.Semailtxt.Name = "Semailtxt";
-            this.Semailtxt.Size = new System.Drawing.Size(232, 30);
+            this.Semailtxt.Size = new System.Drawing.Size(320, 30);
             this.Semailtxt.TabIndex = 4;
             // 
             // Spasswordtxt
@@ -84,7 +84,7 @@
             this.Spasswordtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Spasswordtxt.Location = new System.Drawing.Point(605, 254);
             this.Spasswordtxt.Name = "Spasswordtxt";
-            this.Spasswordtxt.Size = new System.Drawing.Size(232, 30);
+            this.Spasswordtxt.Size = new System.Drawing.Size(320, 30);
             this.Spasswordtxt.TabIndex = 5;
             // 
             // Signupbtn
@@ -98,6 +98,7 @@
             this.Signupbtn.TabIndex = 6;
             this.Signupbtn.Text = "Sign Up";
             this.Signupbtn.UseVisualStyleBackColor = true;
+            this.Signupbtn.Click += new System.EventHandler(this.SignUpbtn_Click);
             // 
             // label1
             // 
@@ -111,7 +112,7 @@
             // 
             // Sclosebtn
             // 
-            this.Sclosebtn.Location = new System.Drawing.Point(871, -1);
+            this.Sclosebtn.Location = new System.Drawing.Point(998, 0);
             this.Sclosebtn.Name = "Sclosebtn";
             this.Sclosebtn.Size = new System.Drawing.Size(30, 29);
             this.Sclosebtn.TabIndex = 8;
@@ -123,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 450);
+            this.ClientSize = new System.Drawing.Size(1024, 450);
             this.Controls.Add(this.Sclosebtn);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.Signupbtn);

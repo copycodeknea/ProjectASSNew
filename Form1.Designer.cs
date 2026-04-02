@@ -69,7 +69,7 @@
             this.Emailtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Emailtxt.Location = new System.Drawing.Point(605, 172);
             this.Emailtxt.Name = "Emailtxt";
-            this.Emailtxt.Size = new System.Drawing.Size(232, 30);
+            this.Emailtxt.Size = new System.Drawing.Size(281, 30);
             this.Emailtxt.TabIndex = 2;
             // 
             // Loginbtn
@@ -105,12 +105,12 @@
             this.Passwordtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Passwordtxt.Location = new System.Drawing.Point(605, 254);
             this.Passwordtxt.Name = "Passwordtxt";
-            this.Passwordtxt.Size = new System.Drawing.Size(232, 30);
+            this.Passwordtxt.Size = new System.Drawing.Size(281, 30);
             this.Passwordtxt.TabIndex = 8;
             // 
             // Closebtn
             // 
-            this.Closebtn.Location = new System.Drawing.Point(871, -1);
+            this.Closebtn.Location = new System.Drawing.Point(958, -1);
             this.Closebtn.Name = "Closebtn";
             this.Closebtn.Size = new System.Drawing.Size(30, 29);
             this.Closebtn.TabIndex = 9;
@@ -134,7 +134,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(900, 450);
+            this.ClientSize = new System.Drawing.Size(986, 450);
             this.Controls.Add(this.Closebtn);
             this.Controls.Add(this.Passwordtxt);
             this.Controls.Add(this.label3);
